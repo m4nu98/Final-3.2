@@ -7,7 +7,6 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useAuth } from './authContext'; // Importación desde la misma carpeta
 import { Button } from '@/components/ui/button';
 import SignupForm from '@/components/SignupForm';
 import SigninForm from '@/components/SigninForm';
@@ -26,15 +25,17 @@ const Header = () => {
             const storedUser = JSON.parse(localStorage.getItem('currentUser'));
             setCurrentUser(storedUser);
         }
-    }, []);
+    }, [])
 
-    const handleLoginSuccess = (user) => {
-        setCurrentUser(user);
+    const handleLoginSuccess = (currentUser) => {
+        setCurrentUser(currentUser);
+        console.log(currentUser,"estado del handleLoginSuccess")
     };
 
     const handleLogout = () => {
         if (typeof window !== 'undefined') {
             localStorage.removeItem('currentUser');
+            console.log(currentUser,"estado del handleLogout")
         }
         setCurrentUser(null);
     };
@@ -97,8 +98,12 @@ const Header = () => {
                 </Button>
             </nav>
 
-            <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} isAuthenticated={!!currentUser} user={currentUser} logout={handleLogout} />
-
+            <MobileMenu 
+    menuOpen={menuOpen} 
+    setMenuOpen={setMenuOpen} 
+    currentUser={currentUser}  // <-- Agrega esta línea
+    logout={handleLogout} 
+/>
             {isSignupModalOpen && (
                 <SignupForm onClose={() => setIsSignupModalOpen(false)} />
             )}
@@ -111,9 +116,11 @@ const Header = () => {
 };
 export default Header;
 
-const MobileMenu = ({ menuOpen, setMenuOpen, currentUser , user, logout }) => (
+const MobileMenu = ({ menuOpen, setMenuOpen, currentUser , logout }) => (
+    
     <div className={`absolute top-16 right-0 bg-gray-900 w-64 flex flex-col items-start gap-4 p-4 z-50 ${menuOpen ? 'block' : 'hidden'}`}>
-        {currentUser  ? (
+        {console.log(currentUser,"currentUser en MobileMenu")}
+        {currentUser ? (
             <>
                 <Link href="/mipublicacion" className="hover:underline w-full text-left" prefetch={false} onClick={() => setMenuOpen(false)}>
                     Mi cuenta
