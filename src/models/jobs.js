@@ -32,7 +32,7 @@ const jobPostingSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Referencia al modelo de usuarios si lo tienes
+    ref: 'RegistroUsuario', // Referencia al modelo de usuarios si lo tienes
     required: true
   }
 });

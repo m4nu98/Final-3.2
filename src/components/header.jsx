@@ -53,10 +53,10 @@ const Header = () => {
             <nav className="hidden lg:flex gap-6">
                 {currentUser ? (
                     <>
-                        <Link href="/" className="hover:underline" prefetch={false}>Inicio</Link>
                         <Link href="/servicios" className="hover:underline" prefetch={false}>Servicios</Link>
                         <Link href="/mipublicacion" className="hover:underline" prefetch={false}>Mis Publicaciones</Link>
-                        <Link href="/about" className="hover:underline" prefetch={false}>Acerca de</Link>
+                        <Link href="/misDatos" className="hover:underline" prefetch={false}>Mis Datos</Link>
+                        <Link href="/about" className="hover:underline" prefetch={false}>Acerca de Nosotros</Link>
                     </>
                 ) : (
                     <>
@@ -122,7 +122,7 @@ const MobileMenu = ({ menuOpen, setMenuOpen, currentUser , logout }) => (
         {console.log(currentUser,"currentUser en MobileMenu")}
         {currentUser ? (
             <>
-                <Link href="/mipublicacion" className="hover:underline w-full text-left" prefetch={false} onClick={() => setMenuOpen(false)}>
+                <Link href="/misDatos" className="hover:underline w-full text-left" prefetch={false} onClick={() => setMenuOpen(false)}>
                     Mi cuenta
                 </Link>
                 <Link href="/servicios" className="hover:underline w-full text-left" prefetch={false} onClick={() => setMenuOpen(false)}>
@@ -140,12 +140,8 @@ const MobileMenu = ({ menuOpen, setMenuOpen, currentUser , logout }) => (
                 <Link href="/servicios" className="hover:underline w-full text-left" prefetch={false} onClick={() => setMenuOpen(false)}>
                     Servicios
                 </Link>
-                <Link href="about" className="hover:underline w-full text-left" prefetch={false} onClick={() => setMenuOpen(false)}>
-                    Acerca de nosotros
-                </Link>
-                <Link href="#" className="hover:underline w-full text-left" prefetch={false} onClick={() => setMenuOpen(false)}>
-                    no logeado
-                </Link>
+               
+                
             </>
         )}
     </div>

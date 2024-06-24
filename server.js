@@ -136,6 +136,17 @@ app.post('/api/jobs', async (req, res) => {
   });
 
 
+  app.get('/api/jobpostings', async (req, res) => {
+    try {
+        const jobPostings = await JobPosting.find().populate('userId', 'RegistroUsuario');
+        res.json(jobPostings);
+    } catch (error) {
+      console.error('Error al obtener las publicaciones:', error); // Registra el error completo
+      res.status(500).json({ error: 'Error al obtener las publicaciones' });
+    }
+  });
+  
+
 
 // Iniciar el servidor
 app.listen(PORT, () => {
