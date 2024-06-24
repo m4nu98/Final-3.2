@@ -1,10 +1,6 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/FJho0I7nBWl
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
+
 "use client";
-import Link from "next/link"
+
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -14,10 +10,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 import "../globals.css"
 import Formulario from "@/components/FormularioPubliacion"
 
-
 export default function Component() {
   const [showFormulario, setShowFormulario] = useState(false);
   const [jobPostings, setJobPostings] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
 
   useEffect(() => {
     fetch('http://localhost:4000/api/jobpostings')
@@ -35,7 +31,6 @@ export default function Component() {
       });
   }, []);
 
-
   const handleOpenFormulario = () => {
     setShowFormulario(true);
   };
@@ -43,6 +38,17 @@ export default function Component() {
   const handleCloseFormulario = () => {
     setShowFormulario(false);
   };
+
+  // Filtrar las publicaciones en función del término de búsqueda
+  const filteredJobPostings = jobPostings.filter(posting => {
+    const searchTermLower = searchTerm.toLowerCase();
+    return (
+      posting.servicio.toLowerCase().includes(searchTermLower) ||
+      posting.nombreApellido.toLowerCase().includes(searchTermLower) ||
+      posting.provincia.toLowerCase().includes(searchTermLower)
+      // Puedes añadir más campos según sea necesario para la búsqueda
+    );
+  });
 
   return (
     <div className="flex flex-col min-h-[100vh]">
@@ -55,17 +61,33 @@ export default function Component() {
                 <p className="text-gray-500 md:text-xl">Encuentre los mejores profesionales para las necesidades de su hogar o negocio.</p>
               </div>
               <div className="relative w-full max-w-md flex items-center">
-                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500 dark:text-gray-400" />
-                <Input type="search" placeholder="Search services..." className="pl-10 pr-8 w-full" />
+                <Input
+                  type="search"
+                  placeholder="Search services..."
+                  className="pl-10 pr-8 w-full"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
                 <Button
                   variant="outline"
                   className="ml-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50"
                 >
-                  <SearchIcon className="h-5 w-5" />
+                  <svg
+                    className="h-5 w-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
                   <span className="sr-only">Buscar</span>
                 </Button>
                 <Button variant="azul" className="colorazul ml-2" onClick={handleOpenFormulario}>
-                  <PlusIcon className="h-5 w-5 mr-2" />
                   Publicar
                 </Button>
               </div>
@@ -128,7 +150,7 @@ export default function Component() {
                 </Accordion>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Array.isArray(jobPostings) && jobPostings.map(posting => (
+                {Array.isArray(filteredJobPostings) && filteredJobPostings.map(posting => (
                   <div key={posting._id} className="bg-white colorblanco rounded-lg shadow-md p-6 flex flex-col items-start gap-4">
                     <h3 className="text-xl font-semibold">{posting.servicio}</h3>
                     <div className="flex items-center gap-2">
@@ -169,6 +191,7 @@ export default function Component() {
     </div>
   );
 }
+
 
 function BoltIcon(props) {
   return (
