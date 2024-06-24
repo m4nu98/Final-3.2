@@ -1,9 +1,35 @@
-"use client"
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 
 const CreateJobForm = ({ onCreate, onClose }) => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+
+  // Define el array de provincias
+  const provinciasArgentina = [
+    "Buenos Aires",
+    "Catamarca",
+    "Chaco",
+    "Chubut",
+    "Córdoba",
+    "Corrientes",
+    "Entre Ríos",
+    "Formosa",
+    "Jujuy",
+    "La Pampa",
+    "La Rioja",
+    "Mendoza",
+    "Misiones",
+    "Neuquén",
+    "Río Negro",
+    "Salta",
+    "San Juan",
+    "San Luis",
+    "Santa Cruz",
+    "Santa Fe",
+    "Santiago del Estero",
+    "Tierra del Fuego, Antártida e Islas del Atlántico Sur",
+    "Tucumán"
+  ];
 
   const onSubmit = async (formData) => {
     try {
@@ -66,13 +92,16 @@ const CreateJobForm = ({ onCreate, onClose }) => {
             <label htmlFor="provincia" className="block text-sm font-medium text-gray-700">
               Provincia
             </label>
-            <input
-              type="text"
+            <select
               id="provincia"
               {...register('provincia', { required: true })}
               className="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block w-full sm:text-sm border p-2"
-              placeholder="Provincia"
-            />
+            >
+              <option value="">Selecciona una provincia</option>
+              {provinciasArgentina.map(provincia => (
+                <option key={provincia} value={provincia}>{provincia}</option>
+              ))}
+            </select>
             {errors.provincia && <p className="text-red-500 text-xs italic">Este campo es requerido</p>}
           </div>
 
