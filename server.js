@@ -101,7 +101,7 @@ app.post('/api/login', async (req, res) => {
 
 app.post('/api/jobs', async (req, res) => {
     try {
-      const { nombreApellido, dni, provincia, direccion, nroTelefono, servicio, codigoPostal, descripcionTrabajo } = req.body;
+      const { nombreApellido, provincia,costo, direccion, nroTelefono, servicio, descripcionTrabajo } = req.body;
   
       // Obtener userId desde el cuerpo de la solicitud
       const userId = req.body.userId;
@@ -114,12 +114,11 @@ app.post('/api/jobs', async (req, res) => {
       // Crear un nuevo documento Job con los datos del formulario y userId
       const nuevoJob = new JobPosting({ 
         nombreApellido, 
-        dni, 
         provincia, 
         direccion, 
         nroTelefono, 
         servicio, 
-        codigoPostal, 
+        costo: Number(costo), 
         descripcionTrabajo,
         userId // Asegúrate de incluir userId aquí
       });

@@ -42,6 +42,7 @@ const CreateJobForm = ({ onCreate, onClose }) => {
       console.error("Error al crear el job posting:", err);
     }
   };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
       <div className="bg-white dark:bg-gray rounded-lg shadow-md p-6 w-full max-w-md">
@@ -59,20 +60,6 @@ const CreateJobForm = ({ onCreate, onClose }) => {
               placeholder="Nombre y apellido"
             />
             {errors.nombreApellido && <p className="text-red-500 text-xs italic">Este campo es requerido</p>}
-          </div>
-
-          <div className="grid grid-cols-1 gap-4">
-            <label htmlFor="dni" className="block text-sm font-medium text-gray-700">
-              DNI
-            </label>
-            <input
-              type="text"
-              id="dni"
-              {...register('dni', { required: true })}
-              className="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block w-full sm:text-sm border p-2"
-              placeholder="DNI"
-            />
-            {errors.dni && <p className="text-red-500 text-xs italic">Este campo es requerido</p>}
           </div>
 
           <div className="grid grid-cols-1 gap-4">
@@ -132,17 +119,18 @@ const CreateJobForm = ({ onCreate, onClose }) => {
           </div>
 
           <div className="grid grid-cols-1 gap-4">
-            <label htmlFor="codigoPostal" className="block text-sm font-medium text-gray-700">
-              Código Postal
+            <label htmlFor="costo" className="block text-sm font-medium text-gray-700">
+              Costo
             </label>
             <input
-              type="text"
-              id="codigoPostal"
-              {...register('codigoPostal', { required: true })}
+              type="number"
+              id="costo"
+              {...register('costo', { required: true })}
               className="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block w-full sm:text-sm border p-2"
-              placeholder="Código Postal"
+              placeholder="Ingrese el costo en dólares"
+              step="0.01" // Step para permitir decimales, si es necesario
             />
-            {errors.codigoPostal && <p className="text-red-500 text-xs italic">Este campo es requerido</p>}
+            {errors.costo && <p className="text-red-500 text-xs italic">Este campo es requerido</p>}
           </div>
 
           <div className="grid grid-cols-1 gap-4">

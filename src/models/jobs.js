@@ -5,10 +5,7 @@ const jobPostingSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  dni: {
-    type: String,
-    required: true
-  },
+  
   provincia: {
     type: String,
     required: true
@@ -25,10 +22,10 @@ const jobPostingSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  codigoPostal: {
-    type: String,
+  costo: {  // Cambio de codigoPostal a costo
+    type: Number,  // Cambio a tipo Number para almacenar valores numéricos
     required: true
-  },
+},
   descripcionTrabajo: {
     type: String,
     required: true
