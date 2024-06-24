@@ -83,6 +83,10 @@ app.post('/api/login', async (req, res) => {
             nombre: usuario.nombre,
             // Otros datos que quieras devolver
         });
+        if (typeof window !== 'undefined') { // Verifica si estás en el entorno del navegador
+            localStorage.setItem('userId', usuario._id);
+        }
+        
 
     } catch (error) {
         console.error("Error en el login:", error);
@@ -95,36 +99,42 @@ app.post('/api/login', async (req, res) => {
 
 
 
-// Endpoint para guardar un nuevo job posting
 app.post('/api/jobs', async (req, res) => {
     try {
-        const { nombreApellido, dni, provincia, direccion, nroTelefono, servicio, codigoPostal, descripcionTrabajo } = req.body;
-
-        // Crear un nuevo documento Job con los datos del formulario
-        const nuevoJob = new JobPosting({ 
-            nombreApellido, 
-            dni, 
-            provincia, 
-            direccion, 
-            nroTelefono, 
-            servicio, 
-            codigoPostal, 
-            descripcionTrabajo 
-        });
-        
-
-        // Guardar el nuevo job en la base de datos
-        await nuevoJob.save();
-
-        // Enviar una respuesta exitosa
-        res.status(201).json({ mensaje: 'Job posting creado exitosamente' }); 
-
+      const { nombreApellido, dni, provincia, direccion, nroTelefono, servicio, codigoPostal, descripcionTrabajo } = req.body;
+  
+      // Obtener userId desde el cuerpo de la solicitud
+      const userId = req.body.userId;
+  
+      // Validar que userId esté presente y sea válido
+      if (!userId) {
+        throw new Error('ID de usuario no especificado');
+      }
+  
+      // Crear un nuevo documento Job con los datos del formulario y userId
+      const nuevoJob = new JobPosting({ 
+        nombreApellido, 
+        dni, 
+        provincia, 
+        direccion, 
+        nroTelefono, 
+        servicio, 
+        codigoPostal, 
+        descripcionTrabajo,
+        userId // Asegúrate de incluir userId aquí
+      });
+  
+      // Guardar el nuevo job en la base de datos
+      await nuevoJob.save();
+  
+      // Enviar una respuesta exitosa
+      res.status(201).json({ mensaje: 'Job posting creado exitosamente' });
+  
     } catch (error) {
-        console.error('Error al crear job asdasd:', error); 
-        console.log(error); // <-- Agrega esta línea para mostrar el error en la consola
-        res.status(500).json({ mensaje: 'Error al crear job posting' });
+      console.error('Error al crear job posting:', error);
+      res.status(500).json({ mensaje: 'Error al crear job posting' });
     }
-});
+  });
 
 
 

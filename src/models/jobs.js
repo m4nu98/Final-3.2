@@ -32,6 +32,11 @@ const jobPostingSchema = new mongoose.Schema({
   descripcionTrabajo: {
     type: String,
     required: true
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', // Referencia al modelo de usuarios si lo tienes
+    required: true
   }
 });
 
